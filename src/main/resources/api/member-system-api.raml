@@ -1,0 +1,108 @@
+#%RAML 1.0
+title: Member System API
+description: This RAML file describes structure of all member system API
+
+traits:
+  clientIdEnforcement: !include /exchange_modules/cddc7efe-9800-42be-8264-92d3b85651c0/fragment-common-traits/1.0.3/clientIdenforcement-traits.raml
+  common: !include /exchange_modules/cddc7efe-9800-42be-8264-92d3b85651c0/fragment-common-traits/1.0.3/commontraits.raml
+  jwtToken: !include /exchange_modules/cddc7efe-9800-42be-8264-92d3b85651c0/fragment-common-traits/1.0.3/jwt-authorization-traits.raml
+  memberQueryParam: !include exchange_modules/cddc7efe-9800-42be-8264-92d3b85651c0/fragment-common-traits/1.0.3/member-queryParams-traits.raml
+
+
+types:
+  
+  commonError: !include /exchange_modules/cddc7efe-9800-42be-8264-92d3b85651c0/fragment-commom-datatypes/1.0.3/Member/error-response-dataType.raml
+  getOTPResponse: !include /exchange_modules/cddc7efe-9800-42be-8264-92d3b85651c0/fragment-commom-datatypes/1.0.3/Authorization/get-OTP-response-dataType.raml
+  getOTPrequest: !include /exchange_modules/cddc7efe-9800-42be-8264-92d3b85651c0/fragment-commom-datatypes/1.0.3/Authorization/post-OTP-request-dataType.raml 
+  postOTPResponse: !include /exchange_modules/cddc7efe-9800-42be-8264-92d3b85651c0/fragment-commom-datatypes/1.0.3/Authorization/post-member-response-dataType.raml
+  postOTPRequest: !include /exchange_modules/cddc7efe-9800-42be-8264-92d3b85651c0/fragment-commom-datatypes/1.0.3/Authorization/post-OTP-request-dataType.raml 
+  
+  
+
+
+/members:
+  /otp:
+    post:
+      description: This API will fetch customer details from SFDC.
+      is:
+        - clientIdEnforcement
+        - common
+      body:
+        application/json:
+          description: This is success response for get member details API
+          type: postOTPRequest
+          example: !include /post-OTP-request-example.json  
+      responses:
+        200:
+          body:
+            application/json:
+              type: postOTPResponse
+              example: !include /post-OTP-response-example.json
+        400:
+          body:
+            application/json:
+              type: commonError
+              example: !include /error-400-response-example.json
+        401:
+          body:
+            application/json:
+              type: commonError
+              example: !include /error-401-response-example.json
+        404:
+          body:
+            application/json:
+              type: commonError
+              example: !include /error-404-response-example.json
+        500:
+          body:
+            application/json:
+              type: commonError
+              example: !include /error-500-response-example.json
+  /{memberID}:
+    /otp:   
+      get:
+        description: This API will fetch customer details from SFDC.
+        is:
+          - clientIdEnforcement
+          - common
+        responses:
+          200:
+            body:
+              application/json:
+                description: This is success response for get member details API
+                type: getOTPResponse
+                example: !include /get-OTP-response-example.json 
+                      
+          400:
+            body:
+              application/json:
+                type: commonError
+                example: !include /error-400-response-example.json
+          401:
+            body:
+              application/json:
+                type: commonError
+                example: !include /error-401-response-example.json
+          404:
+            body:
+              application/json:
+                type: commonError
+                example: !include /error-404-response-example.json
+          500:
+            body:
+              application/json:
+                type: commonError
+                example: !include /error-500-response-example.json
+    
+                      
+
+                      
+              
+
+
+                  
+                      
+
+                              
+
+              
